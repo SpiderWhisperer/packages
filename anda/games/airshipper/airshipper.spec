@@ -12,8 +12,11 @@ License:        GPL-3.0
 URL:            https://crates.io/crates/airshipper
 Source:         %{crates_source}
 
-BuildRequires:  cargo-rpm-macros >= 24
-BuildRequires:  rustup
+#BuildRequires: anda-srpm-macros
+BuildRequires: cargo-rpm-macros
+BuildRequires: rustup
+BuildRequires: openssl
+BuildRequires: openssl-devel
 
 %global _description %{expand:
 Provides automatic updates for the voxel RPG Veloren.}
@@ -36,24 +39,15 @@ License: ((Apache-2.0 OR MIT) AND BSD-3-Clause) AND ((MIT OR Apache-2.0) AND Uni
 %prep
 %autosetup -n %{crate}-%{version}
 %rustup_nightly
-rust_toolchain=$(rustc +nightly --version | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | tail -n 1)
-if [ -z "$rust_toolchain" ]; then
-    echo "Unable to determine the Rust nightly toolchain date" >&2
-    exit 1
-fi
-printf 'nightly-%s\n' "$rust_toolchain" > rust-toolchain
 %cargo_prep_online
-
-%generate_buildrequires
-%cargo_generate_buildrequires
 
 %build
 %cargo_build
-%{cargo_license_summary_online}
-%{cargo_license_online} > LICENSE.dependencies
 
 %install
-%cargo_install
+%cargo_install_bin
+%{cargo_license_summary_online}
+%{cargo_license_online} > LICENSE.dependencies
 
 %if %{with check}
 %check
