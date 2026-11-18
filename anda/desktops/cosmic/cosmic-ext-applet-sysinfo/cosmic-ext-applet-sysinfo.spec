@@ -1,6 +1,6 @@
-%global ver 0.4.0
-%global commit_date 20261113
-%global commit 1b646f6673e9df7ee19806fd57b6e4489ba42856
+%global ver 0.5.0
+%global commit_date 20261118
+%global commit 82cc15b8f4a529c16d3ad12db07db85b2ac7cc71
 %global shortcommit %{sub %{commit} 0 7}
 %global appid io.github.cosmic_utils.sysinfo-applet
 
